@@ -5,8 +5,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.Charset;
 
+import model.Plant;
 import model.User;
-import com.google.gson.*;
+
+import com.fasterxml.jackson.core.JsonParseException;
+
 public class WebserviceConnector implements Runnable {
 	IWebserviceHandler webserviceHandler = new DummyWebserviceHandler();
 	int port;
@@ -61,13 +64,36 @@ public class WebserviceConnector implements Runnable {
 				id_getUser = -1;
 			}
 			respond(webserviceHandler.getUser(id_getUser).toJson(), bw);
+			break;
 
 		case "adduser":
-			gson gson= new Gson();
-			User user = new Gson().fromJson(param, User.class);
-			respond(webserviceHandler.addUser(param), bw);
+			User userToAdd = User.fromJson(param);
+			String response = Integer.toString(webserviceHandler.addUser(userToAdd));
+			respond(response, bw);
+			break;
+		case "modifyuser":
+			User userToModify = User.fromJson(param);
+			
+			if (webserviceHandler.modifyUser(userToModify)) {
+				respond("True", bw);
+			} else {
+				respond("False", bw);
+			}
+			break;
 
 		case "removeuser":
+			int id_RemoveUser;
+			try {
+				id_RemoveUser = Integer.parseInt(param);
+			} catch (NumberFormatException e) {
+				id_RemoveUser = -1;
+			}
+			if (webserviceHandler.removeUser(id_RemoveUser)) {
+				respond("True", bw);
+			} else {
+				respond("False", bw);
+			}
+			break;
 
 		case "getplant":
 			int id_getPlant;
@@ -76,11 +102,50 @@ public class WebserviceConnector implements Runnable {
 			} catch (NumberFormatException e) {
 				id_getPlant = -1;
 			}
-			respond(webserviceHandler.getUser(id_getPlant).toJson(), bw);
+			respond(webserviceHandler.getPlant(id_getPlant).toJson(), bw);
+			break;
 
 		case "addplant":
+
+			Plant plantToAdd = Plant.fromJson(param);
+			String res = Integer.toString(webserviceHandler.addPlant(plantToAdd));
+			respond(res, bw);
+			break;
+
+		case "modifyplant":
+			Plant plantToModify = Plant.fromJson(param);
+			
+			if (webserviceHandler.modifyPlant(plantToModify)) {
+				respond("True", bw);
+			} else {
+				respond("False", bw);
+			}
+			break;
+			
 		case "removeplant":
+
+			int id_RemovePlant;
+			try {
+				id_RemovePlant = Integer.parseInt(param);
+			} catch (NumberFormatException e) {
+				id_RemovePlant = -1;
+			}
+			if (webserviceHandler.removePlant(id_RemovePlant)) {
+				respond("True", bw);
+			} else {
+				respond("False", bw);
+			}
+			break;
+			
 		case "getplantmonitor":
+			int id_getplantmonitor;
+			try {
+				id_getplantmonitor = Integer.parseInt(param);
+			} catch (NumberFormatException e) {
+				id_getplantmonitor = -1;
+			}
+			respond(webserviceHandler.getPlantMonitor(id_getplantmonitor).toJson(), bw);
+			break;
 		}
 
 	}
@@ -89,4 +154,5 @@ public class WebserviceConnector implements Runnable {
 		bw.write(response);
 		bw.flush();
 	}
+
 }

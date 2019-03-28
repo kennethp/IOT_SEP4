@@ -39,4 +39,16 @@ public class DummyWebserviceHandler implements IWebserviceHandler {
 	public PlantMonitor getPlantMonitor(int id) {
 		return null;
 	}
+
+	@Override
+	public boolean modifyUser(User user) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean modifyPlant(Plant plant) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
