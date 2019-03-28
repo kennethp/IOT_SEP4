@@ -13,6 +13,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 public class WebserviceConnector implements Runnable {
 	IWebserviceHandler webserviceHandler = new DummyWebserviceHandler();
 	int port;
+	static Charset charset = Charset.forName("UTF-8");
 
 	public WebserviceConnector(int port) {
 		this.port = port;
@@ -35,16 +36,14 @@ public class WebserviceConnector implements Runnable {
 			InputStreamReader ir = new InputStreamReader(socket.getInputStream());
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
-			ByteArrayOutputStream baos;
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			while (!socket.isClosed()) {
-				baos = new ByteArrayOutputStream();
-
 				int c;
 				while ((c = ir.read()) != 0) {
 					baos.write(c);
 				}
 
-				handle(new String(baos.toByteArray(), Charset.forName("UTF-8")), bw);
+				handle(new String(baos.toByteArray(), charset), bw);
 				baos.reset();
 			}
 		}
@@ -152,6 +151,7 @@ public class WebserviceConnector implements Runnable {
 
 	private void respond(String response, BufferedWriter bw) throws IOException {
 		bw.write(response);
+		bw.write(0);
 		bw.flush();
 	}
 
