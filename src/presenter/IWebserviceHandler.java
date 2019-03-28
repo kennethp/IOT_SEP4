@@ -1,11 +1,11 @@
-package Controller;
+package presenter;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import Model.Plant;
-import Model.PlantMonitor;
-import Model.User;
+import model.Plant;
+import model.PlantMonitor;
+import model.User;
 
 public interface IWebserviceHandler {
 	

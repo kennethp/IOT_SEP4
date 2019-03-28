@@ -1,8 +1,8 @@
-package Controller;
+package presenter;
 
-import Model.Plant;
-import Model.PlantMonitor;
-import Model.User;
+import model.Plant;
+import model.PlantMonitor;
+import model.User;
 
 public class DummyDatabaseHandler implements IDatabaseHandler {
 	@Override

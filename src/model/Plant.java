@@ -1,15 +1,13 @@
-package Model;
+package model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.io.IOException;
 
-public class User {
+public class Plant {
 	int id;
 	String name;
-	String username;
-	String password;
-	String email;
+	int assignedProfile;
 
 	public String toJson() {
 		try {
@@ -19,9 +17,9 @@ public class User {
 		}
 	}
 
-	public static User fromJson(String json) {
+	public static Plant fromJson(String json) {
 		try {
-			return JsonConverter.objectMapper.readValue(json, User.class);
+			return JsonConverter.objectMapper.readValue(json, Plant.class);
 		} catch(IOException e) {
 			return null;
 		}

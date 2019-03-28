@@ -1,4 +1,4 @@
-package Controller;
+package presenter;
 
 public interface IEmbeddedHandler {
 	public void waterPlant(int amount);
