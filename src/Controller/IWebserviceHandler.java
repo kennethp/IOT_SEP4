@@ -7,10 +7,14 @@ import Model.Plant;
 import Model.PlantMonitor;
 import Model.User;
 
-public interface IWebserviceHandler extends Remote {
+public interface IWebserviceHandler {
 	
-	public User getUser(int id) throws RemoteException;
-	public Plant getPlant (int id) throws RemoteException;
-	public PlantMonitor getPlantMonitor(int id) throws RemoteException;
+	public User getUser(int id);
+	public int addUser(User user);
+	public boolean removeUser(int id);
+	public Plant getPlant (int id);
+	public int addPlant(Plant plant);
+	public boolean removePlant(int id);
+	public PlantMonitor getPlantMonitor(int id);
 
 }
