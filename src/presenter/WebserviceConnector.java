@@ -4,11 +4,17 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.Charset;
+import java.security.NoSuchAlgorithmException;
 
 import model.Plant;
 import model.User;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import sun.security.provider.X509Factory;
+
+import javax.net.ssl.*;
+
+import static java.lang.System.exit;
 
 public class WebserviceConnector implements Runnable {
 	IWebserviceHandler webserviceHandler = new DummyWebserviceHandler();
@@ -24,12 +30,13 @@ public class WebserviceConnector implements Runnable {
 		try {
 			listen(port);
 		} catch (IOException e) {
-			System.exit(1);
+			exit(1);
 		}
 	}
 
 	private void listen(int port) throws IOException {
-		ServerSocket ss = new ServerSocket(port);
+		ServerSocket ss = TlsSocketFactory.getInstance().getServerSocket(port);
+
 		Socket socket;
 		while (true) {
 			socket = ss.accept();
