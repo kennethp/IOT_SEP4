@@ -11,6 +11,9 @@ import java.security.SecureRandom;
 
 import static java.lang.System.exit;
 
+/**
+ * Factory class for loading keystore and making TLS ServerSocket
+ */
 public class TlsSocketFactory {
 	private static TlsSocketFactory me = null;
 	private SSLServerSocketFactory ssf;
