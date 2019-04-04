@@ -16,6 +16,9 @@ import javax.net.ssl.*;
 
 import static java.lang.System.exit;
 
+/**
+ * Connection handler for the communication with the Webservice
+ */
 public class WebserviceConnector implements Runnable {
 	IWebserviceHandler webserviceHandler = new DummyWebserviceHandler();
 	int port;
@@ -34,6 +37,13 @@ public class WebserviceConnector implements Runnable {
 		}
 	}
 
+	/**
+	Listens for connection requests from the client and establishes a socket
+	connection. If the socket closes, it will go back to listening.
+	 It reads text from the socket connection until it receives a 0 byte
+	 and then passes the string to the handle method.
+	@param port Port of the socket connection.
+	 */
 	private void listen(int port) throws IOException {
 		ServerSocket ss = TlsSocketFactory.getInstance().getServerSocket(port);
 
@@ -56,6 +66,13 @@ public class WebserviceConnector implements Runnable {
 		}
 	}
 
+	/**
+	 *Matches the string to an option and performs the action attached to it.
+	 * If no option matches the command is ignored.
+	 * @param input The received string
+	 * @param bw Writer for sending text to webservice.
+	 * @throws IOException
+	 */
 	private void handle(String input, BufferedWriter bw) throws IOException {
 		int c = input.indexOf(':');
 		String cmd = input.substring(0, c);
@@ -152,10 +169,18 @@ public class WebserviceConnector implements Runnable {
 			}
 			respond(webserviceHandler.getPlantMonitor(id_getplantmonitor).toJson(), bw);
 			break;
-		}
 
+			default:
+				System.err.println("Invalid command from webservice");
+		}
 	}
 
+	/**
+	 * Used by the handle() method to return responses to the webservice.
+	 * @param response Text to send.
+	 * @param bw Writer for the socket connection.
+	 * @throws IOException
+	 */
 	private void respond(String response, BufferedWriter bw) throws IOException {
 		bw.write(response);
 		bw.write(0);
