@@ -19,7 +19,7 @@ public class TlsSocketFactory {
 		try {
 			FileInputStream fis = new FileInputStream(System.getProperty("user.home") + "/bstore.jks");
 			char[] pass = "bridge".toCharArray();
-			KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+			KeyStore keyStore = KeyStore.getInstance("JKS");
 			keyStore.load(fis, pass);
 
 			KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
