@@ -1,19 +1,46 @@
 package presenter;
 
-import com.mongodb.MongoClient;
+import com.mongodb.*;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoDatabase;
 import model.Plant;
 import model.PlantMonitor;
 import model.User;
+import org.bson.Document;
+
+import java.util.function.Consumer;
+
 
 public class DatabaseHandler implements IDatabaseHandler {
 	MongoClient mongo;
+	MongoDatabase database;
 
-	public DatabaseHandler(String host, int port) {
-		mongo = new MongoClient(host, port);
+	/**
+	 * Constructs a database handler internally using com.mongodb.MongoClient
+	 * @param hostString MongoClientURI string
+	 */
+	public DatabaseHandler(String hostString) {
+		MongoClient mongoClient = new MongoClient(new MongoClientURI(hostString));
+		mongoClient.startSession();
+		mongoClient.listDatabaseNames().forEach(new Consumer<String>() {
+			@Override
+			public void accept(String s) {
+				System.out.println("Database");
+				System.out.println(s);
+			}
+		});
+		MongoDatabase database = mongoClient.getDatabase("test");
 	}
 
+	/**
+	 * Returns a User fetched from database
+	 * @param id Users id in database
+	 * @return User object
+	 */
 	@Override
 	public User getUser(int id) {
+		Document d = database.getCollection("Test").find().first();
+		System.out.println(d.toString());
 		return null;
 	}
 
