@@ -43,12 +43,12 @@ public class DummyWebserviceHandler implements IWebserviceHandler {
 	@Override
 	public boolean modifyUser(User user) {
 		// TODO Auto-generated method stub
-		return 0;
+		return false;
 	}
 
 	@Override
 	public boolean modifyPlant(Plant plant) {
 		// TODO Auto-generated method stub
-		return 0;
+		return false;
 	}
 }
