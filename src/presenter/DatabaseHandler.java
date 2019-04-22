@@ -20,16 +20,14 @@ public class DatabaseHandler implements IDatabaseHandler {
 	 * @param hostString MongoClientURI string
 	 */
 	public DatabaseHandler(String hostString) {
+		System.out.println(hostString);
 		MongoClient mongoClient = new MongoClient(new MongoClientURI(hostString));
-		mongoClient.startSession();
-		mongoClient.listDatabaseNames().forEach(new Consumer<String>() {
-			@Override
-			public void accept(String s) {
-				System.out.println("Database");
-				System.out.println(s);
-			}
-		});
-		MongoDatabase database = mongoClient.getDatabase("test");
+		MongoCredential credential = MongoCredential.createCredential("kennethpete@gmail.com", "Test", "12345678X!".toCharArray());
+		MongoDatabase database = mongoClient.getDatabase("Test");
+		for(String s : database.listCollectionNames()) {
+			System.out.println(s);
+		}
+
 	}
 
 	/**
