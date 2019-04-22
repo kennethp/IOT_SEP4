@@ -5,11 +5,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
 
 public class User {
-	int id;
-	String name;
-	String username;
-	String password;
-	String email;
+	public int _id;
+	public String name;
+	public String username;
+	public String password;
+	public String email;
 
 	public String toJson() {
 		try {
