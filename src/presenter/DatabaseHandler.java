@@ -1,12 +1,17 @@
 package presenter;
 
-import com.mongodb.*;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.BasicDBObject;
+import com.mongodb.MongoException;
+import com.mongodb.MongoWriteConcernException;
+import com.mongodb.MongoWriteException;
+import com.mongodb.client.*;
 import model.Plant;
 import model.PlantMonitor;
 import model.User;
+import org.bson.BsonDocument;
+import org.bson.BsonInt32;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 
 import java.util.function.Consumer;
 
@@ -14,20 +19,20 @@ import java.util.function.Consumer;
 public class DatabaseHandler implements IDatabaseHandler {
 	MongoClient mongo;
 	MongoDatabase database;
+	MongoCollection<Document> userCollection;
+	MongoCollection<Document> plantCollection;
 
 	/**
 	 * Constructs a database handler internally using com.mongodb.MongoClient
 	 * @param hostString MongoClientURI string
 	 */
 	public DatabaseHandler(String hostString) {
-		System.out.println(hostString);
-		MongoClient mongoClient = new MongoClient(new MongoClientURI(hostString));
-		MongoCredential credential = MongoCredential.createCredential("kennethpete@gmail.com", "Test", "12345678X!".toCharArray());
-		MongoDatabase database = mongoClient.getDatabase("Test");
-		for(String s : database.listCollectionNames()) {
-			System.out.println(s);
-		}
+		mongo = MongoClients.create(hostString);
+		database = mongo.getDatabase("Project");
+		plantCollection = database.getCollection("Plants");
 
+		System.out.println(plantCollection.find().first().toJson());
+//		userCollection = database.getCollection("Test");
 	}
 
 	/**
@@ -37,19 +42,34 @@ public class DatabaseHandler implements IDatabaseHandler {
 	 */
 	@Override
 	public User getUser(int id) {
-		Document d = database.getCollection("Test").find().first();
-		System.out.println(d.toString());
-		return null;
+		Bson filter = new BasicDBObject("_id", id);
+		Document document = userCollection.find(filter).first();
+		return User.fromJson(document.toJson());
 	}
 
 	@Override
 	public boolean setUser(User user) {
+
+		Bson filter = new BasicDBObject("_id", user._id);
+		Document update = Document.parse(user.toJson());
+		userCollection.findOneAndReplace(filter, update);
 		return false;
 	}
 
 	@Override
 	public int addUser(User user) {
-		return 0;
+		Document document = Document.parse(user.toJson());
+		document.remove("_id");
+		try {
+			userCollection.insertOne(document);
+			return 0;
+		} catch(MongoWriteException e) {
+			return 1;
+		} catch(MongoWriteConcernException f) {
+			return 2;
+		} catch(MongoException g) {
+			return 3;
+		}
 	}
 
 	@Override
