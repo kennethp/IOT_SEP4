@@ -13,6 +13,7 @@ import org.bson.BsonInt32;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
+import javax.print.Doc;
 import java.util.function.Consumer;
 
 
@@ -49,19 +50,40 @@ public class DatabaseHandler implements IDatabaseHandler {
 
 	@Override
 	public boolean setUser(User user) {
-
-		Bson filter = new BasicDBObject("_id", user._id);
-		Document update = Document.parse(user.toJson());
-		userCollection.findOneAndReplace(filter, update);
-		return false;
+		return set(user._id, Document.parse(user.toJson()), userCollection);
 	}
 
 	@Override
 	public int addUser(User user) {
-		Document document = Document.parse(user.toJson());
+		return add(Document.parse(user.toJson()), userCollection);
+	}
+
+	@Override
+	public boolean setPlantMonitor(PlantMonitor monitor) {
+		return false;
+	}
+
+	@Override
+	public Plant getPlant(int id) {
+		Bson filter = new BasicDBObject("_id", id);
+		Document document = plantCollection.find(filter).first();
+		return Plant.fromJson(document.toJson());
+	}
+
+	@Override
+	public boolean setPlant(Plant plant) {
+		return set(plant._id, Document.parse(plant.toJson()), plantCollection);
+	}
+
+	@Override
+	public int addPlant(Plant plant) {
+		return add(Document.parse(plant.toJson()), plantCollection);
+	}
+
+	private int add(Document document, MongoCollection<Document> collection) {
 		document.remove("_id");
 		try {
-			userCollection.insertOne(document);
+			collection.insertOne(document);
 			return 0;
 		} catch(MongoWriteException e) {
 			return 1;
@@ -72,23 +94,13 @@ public class DatabaseHandler implements IDatabaseHandler {
 		}
 	}
 
-	@Override
-	public boolean setPlantMonitor(PlantMonitor monitor) {
-		return false;
-	}
-
-	@Override
-	public Plant getPlant(int id) {
-		return null;
-	}
-
-	@Override
-	public boolean setPlant(Plant plant) {
-		return false;
-	}
-
-	@Override
-	public int addPlant(Plant plant) {
-		return 0;
+	private boolean set(int id, Document update, MongoCollection<Document> collection) {
+		Bson filter = new BasicDBObject("_id", id);
+		try {
+			collection.findOneAndReplace(filter, update);
+		} catch(Exception e) {
+			return false;
+		}
+		return true;
 	}
 }
