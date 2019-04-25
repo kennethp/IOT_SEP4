@@ -20,11 +20,12 @@ import static java.lang.System.exit;
  * Connection handler for the communication with the Webservice
  */
 public class WebserviceConnector implements Runnable {
-	IWebserviceHandler webserviceHandler = new DummyWebserviceHandler();
+	IWebserviceHandler webserviceHandler;
 	int port;
 	static Charset charset = Charset.forName("UTF-8");
 
-	public WebserviceConnector(int port) {
+	public WebserviceConnector(IWebserviceHandler webserviceHandler, int port) {
+		this.webserviceHandler = webserviceHandler;
 		this.port = port;
 	}
 
