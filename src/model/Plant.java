@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
 
 public class Plant {
-	public int _id;
+	public int id;
 	public String name;
 	public int assignedProfile;
 

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
 
 public class User {
-	public int _id;
+	public int id;
 	public String name;
 	public String username;
 	public String password;
