@@ -5,9 +5,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
 
 public class Plant {
-	int id;
-	String name;
-	int assignedProfile;
+	public int _id;
+	public String name;
+	public int assignedProfile;
 
 	public String toJson() {
 		try {
