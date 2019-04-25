@@ -43,14 +43,14 @@ public class DatabaseHandler implements IDatabaseHandler {
 	 */
 	@Override
 	public User getUser(int id) {
-		Bson filter = new BasicDBObject("_id", id);
+		Bson filter = new BasicDBObject("UserId", id);
 		Document document = userCollection.find(filter).first();
 		return User.fromJson(document.toJson());
 	}
 
 	@Override
 	public boolean setUser(User user) {
-		return set(user._id, Document.parse(user.toJson()), userCollection);
+		return set(new BasicDBObject(), Document.parse(user.toJson()), userCollection);
 	}
 
 	@Override
@@ -65,14 +65,14 @@ public class DatabaseHandler implements IDatabaseHandler {
 
 	@Override
 	public Plant getPlant(int id) {
-		Bson filter = new BasicDBObject("_id", id);
+		Bson filter = new BasicDBObject("PlantId", id);
 		Document document = plantCollection.find(filter).first();
 		return Plant.fromJson(document.toJson());
 	}
 
 	@Override
 	public boolean setPlant(Plant plant) {
-		return set(plant._id, Document.parse(plant.toJson()), plantCollection);
+		return set(new BasicDBObject("PlantId", plant.id), Document.parse(plant.toJson()), plantCollection);
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class DatabaseHandler implements IDatabaseHandler {
 	}
 
 	private int add(Document document, MongoCollection<Document> collection) {
-		document.remove("_id");
+		document.remove("id");
 		try {
 			collection.insertOne(document);
 			return 0;
@@ -94,8 +94,7 @@ public class DatabaseHandler implements IDatabaseHandler {
 		}
 	}
 
-	private boolean set(int id, Document update, MongoCollection<Document> collection) {
-		Bson filter = new BasicDBObject("_id", id);
+	private boolean set(Bson filter, Document update, MongoCollection<Document> collection) {
 		try {
 			collection.findOneAndReplace(filter, update);
 		} catch(Exception e) {
