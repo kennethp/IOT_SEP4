@@ -32,7 +32,6 @@ public class DatabaseHandler implements IDatabaseHandler {
 		database = mongo.getDatabase("Project");
 		plantCollection = database.getCollection("Plants");
 
-		System.out.println(plantCollection.find().first().toJson());
 //		userCollection = database.getCollection("Test");
 	}
 
@@ -65,9 +64,16 @@ public class DatabaseHandler implements IDatabaseHandler {
 
 	@Override
 	public Plant getPlant(int id) {
+		System.out.println("Database: getplant " + id);
 		Bson filter = new BasicDBObject("PlantId", id);
 		Document document = plantCollection.find(filter).first();
-		return Plant.fromJson(document.toJson());
+//		return Plant.fromJson(document.toJson());
+		//TODO delete below
+		Plant p = new Plant();
+		p.id = 1;
+		p.assignedProfile = 2;
+		p.name = "Flower";
+		return p;
 	}
 
 	@Override
