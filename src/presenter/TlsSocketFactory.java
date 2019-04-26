@@ -1,16 +1,16 @@
 package presenter;
 
-import test.Client;
-
 import javax.net.ServerSocketFactory;
 import javax.net.ssl.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.security.KeyStore;
 import java.security.SecureRandom;
 
+import static java.lang.System.currentTimeMillis;
 import static java.lang.System.exit;
 
 /**
@@ -61,10 +61,9 @@ public class TlsSocketFactory {
 		return null;
 	}
 
-	public test.Client getTestClient() {
-		SSLSocketFactory factory = sslContext.getSocketFactory();
+	public Socket getTestClientSocket(int port) {
 		try {
-			return new Client(factory.createSocket("localhost", 3001));
+			return sslContext.getSocketFactory().createSocket("localhost", port);
 		} catch(IOException e) {
 			e.printStackTrace();
 			exit(1);
