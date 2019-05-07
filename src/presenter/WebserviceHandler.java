@@ -13,17 +13,17 @@ public class WebserviceHandler implements IWebserviceHandler {
 
 	@Override
 	public User getUser(int id) {
-		return null;
+		return databaseHandler.getUser(id);
 	}
 
 	@Override
 	public int addUser(User user) {
-		return 0;
+		return databaseHandler.addUser(user);
 	}
 
 	@Override
 	public boolean modifyUser(User user) {
-		return false;
+		return databaseHandler.setUser(user);
 	}
 
 	@Override
@@ -38,12 +38,12 @@ public class WebserviceHandler implements IWebserviceHandler {
 
 	@Override
 	public int addPlant(Plant plant) {
-		return 0;
+		return databaseHandler.addPlant(plant);
 	}
 
 	@Override
 	public boolean modifyPlant(Plant plant) {
-		return false;
+		return databaseHandler.setPlant(plant);
 	}
 
 	@Override
@@ -54,5 +54,6 @@ public class WebserviceHandler implements IWebserviceHandler {
 	@Override
 	public PlantMonitor getPlantMonitor(int id) {
 		return null;
+		//TODO get from embedded
 	}
 }
