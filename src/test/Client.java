@@ -1,5 +1,7 @@
 package test;
 
+import presenter.TlsSocketFactory;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -30,5 +32,14 @@ public class Client {
 		}
 		String response = new String(baos.toByteArray(), "UTF-8");
 		System.out.println(response);
+	}
+
+	public static void main(String[] args) {
+		Client client = new Client(TlsSocketFactory.getInstance().getTestClientSocket(3001));
+		try {
+			client.write("getplant:1");
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
