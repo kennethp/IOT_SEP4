@@ -4,6 +4,7 @@ import presenter.TlsSocketFactory;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class Client {
 	Socket socket;
@@ -26,8 +27,6 @@ public class Client {
 			if(c == -1) {
 				break;
 			}
-			System.out.println(">Client: " + n++ + " characters read from stream");
-			System.out.println();
 			baos.write(c);
 		}
 		String response = new String(baos.toByteArray(), "UTF-8");
@@ -37,7 +36,15 @@ public class Client {
 	public static void main(String[] args) {
 		Client client = new Client(TlsSocketFactory.getInstance().getTestClientSocket(3001));
 		try {
-			client.write("getplant:1");
+			Scanner scanner = new Scanner(System.in);
+			while(true) {
+				String s = scanner.nextLine();
+				if(s.equals("exit")) {
+					client.write("asd");
+					client.socket.close();
+				}
+				client.write(s);
+			}
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
