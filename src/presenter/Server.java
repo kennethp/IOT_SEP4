@@ -18,7 +18,7 @@ public class Server {
 	WebserviceConnector webserviceConnector;
 	IWebserviceHandler webserviceHandler;
 
-	ExecutorService executorService;
+	public static ExecutorService executorService;
 
 	public Server() {
 		executorService = new ScheduledThreadPoolExecutor(2);
