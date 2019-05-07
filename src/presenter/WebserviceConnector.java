@@ -23,6 +23,8 @@ public class WebserviceConnector implements Runnable {
 	IWebserviceHandler webserviceHandler;
 	int port;
 	static Charset charset = Charset.forName("UTF-8");
+	boolean die = false;
+	ServerSocket ss;
 
 	public WebserviceConnector(IWebserviceHandler webserviceHandler, int port) {
 		this.webserviceHandler = webserviceHandler;
@@ -38,6 +40,10 @@ public class WebserviceConnector implements Runnable {
 		}
 	}
 
+	public void kill() {
+		exit(0);
+	}
+
 	/**
 	Listens for connection requests from the client and establishes a socket
 	connection. If the socket closes, it will go back to listening.
@@ -46,7 +52,7 @@ public class WebserviceConnector implements Runnable {
 	@param port Port of the socket connection.
 	 */
 	private void listen(int port) throws IOException {
-		ServerSocket ss = TlsSocketFactory.getInstance().getServerSocket(port);
+		ss = TlsSocketFactory.getInstance().getServerSocket(port);
 
 		Socket socket;
 		while (true) {
