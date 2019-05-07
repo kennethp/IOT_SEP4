@@ -5,10 +5,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
 
 public class PlantMonitor {
-	float humidity;
-	float temperature;
-	float CO2;
-	int wateringPeriod;
+	public float humidity;
+	public float temperature;
+	public float CO2;
+	public int wateringPeriod;
 
 	public String toJson() {
 		try {
