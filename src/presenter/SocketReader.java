@@ -60,6 +60,7 @@ public class SocketReader implements Runnable {
 		if(!auth) {
 			if(input.equals(authToken)) {
 				auth = true;
+				respond("accept", bw);
 			}
 			else {
 				respond("reject", bw);

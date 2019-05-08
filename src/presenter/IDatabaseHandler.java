@@ -13,5 +13,5 @@ public interface IDatabaseHandler {
 	public Plant getPlant(int id);
 	public boolean setPlant(Plant plant);
 	public int addPlant(Plant plant);
-
+	public String getStatus();
 }

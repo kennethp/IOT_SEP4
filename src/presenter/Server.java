@@ -20,12 +20,18 @@ public class Server {
 
 	public static ExecutorService executorService;
 
-	public Server() {
+	public Server(int port) {
 		executorService = new ScheduledThreadPoolExecutor(2);
 
 		databaseHandler = new DatabaseHandler("mongodb+srv://" + user + ':' + pass + host);
 		webserviceHandler = new WebserviceHandler(databaseHandler);
-		webserviceConnector = new WebserviceConnector(webserviceHandler, 3001);
+		webserviceConnector = new WebserviceConnector(webserviceHandler, port);
 		executorService.submit(webserviceConnector);
+	}
+
+	public String getStatus() {
+		return webserviceConnector.STATUS
+				+ '\n'
+				+ databaseHandler.getStatus();
 	}
 }

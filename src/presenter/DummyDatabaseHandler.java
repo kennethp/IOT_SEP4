@@ -39,4 +39,9 @@ public class DummyDatabaseHandler implements IDatabaseHandler {
 	public int addPlant(Plant plant) {
 		return 0;
 	}
+
+	@Override
+	public String getStatus() {
+		return "";
+	}
 }

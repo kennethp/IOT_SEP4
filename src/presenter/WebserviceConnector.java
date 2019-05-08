@@ -16,6 +16,7 @@ public class WebserviceConnector implements Runnable {
 	static Charset charset = Charset.forName("UTF-8");
 	boolean die = false;
 	ServerSocket ss;
+	public String STATUS = "No client connected";
 
 	public WebserviceConnector(IWebserviceHandler webserviceHandler, int port) {
 		this.webserviceHandler = webserviceHandler;
@@ -51,6 +52,7 @@ public class WebserviceConnector implements Runnable {
 		while (true) {
 			System.out.println("Listening for new connection");
 			socket = ss.accept();
+			STATUS = "Client is connected";
 
 			if(sr != null) {
 				sr.kill();

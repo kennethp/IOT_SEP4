@@ -22,6 +22,7 @@ public class DatabaseHandler implements IDatabaseHandler {
 	MongoDatabase database;
 	MongoCollection<Document> userCollection;
 	MongoCollection<Document> plantCollection;
+	public String STATUS = "Not connected";
 
 	/**
 	 * Constructs a database handler internally using com.mongodb.MongoClient
@@ -30,9 +31,18 @@ public class DatabaseHandler implements IDatabaseHandler {
 	public DatabaseHandler(String hostString) {
 		mongo = MongoClients.create(hostString);
 		database = mongo.getDatabase("Project");
+		if(database != null) {
+			STATUS = "Connected to mongoDB";
+		}
+
 		plantCollection = database.getCollection("Plants");
 
 //		userCollection = database.getCollection("Test");
+	}
+
+	@Override
+	public String getStatus() {
+		return STATUS;
 	}
 
 	/**
@@ -40,6 +50,8 @@ public class DatabaseHandler implements IDatabaseHandler {
 	 * @param id Users id in database
 	 * @return User object
 	 */
+
+
 	@Override
 	public User getUser(int id) {
 		Bson filter = new BasicDBObject("UserId", id);
