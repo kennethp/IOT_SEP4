@@ -1,33 +1,34 @@
 package view;
 
 import presenter.Server;
-import presenter.TlsSocketFactory;
-import test.Client;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Scanner;
+
+import static java.lang.System.exit;
 
 public class Main {
 	public static void main(String[] args) {
-		Server server = new Server();
-		try {
-			Thread.sleep(100);
-		} catch(InterruptedException e) {
-			e.printStackTrace();
-		}
-		Client client = new Client(TlsSocketFactory.getInstance().getTestClientSocket(3001));
+		Server server = new Server(3001);
+		Scanner scanner = new Scanner(System.in);
 
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		while(true) {
-			try {
-				String s = br.readLine();
-				System.out.println("--\nSending: " + s + "\n--");
-				client.write(s);
-			} catch(IOException e) {
-				e.printStackTrace();
+		String input;
+		while(!(input = scanner.nextLine()).equals("exit")) {
+			switch(input) {
+				case "help":
+					System.out.println("Commands: ");
+					System.out.println(" help");
+					System.out.println(" status");
+					System.out.println(" exit");
+					break;
+				case "status":
+					System.out.println(server.getStatus());
+					break;
+				default:
+					System.out.println("? Try 'help'");
 			}
 		}
+
+		System.out.println("Shutting down");
+		exit(0);
 	}
 }
