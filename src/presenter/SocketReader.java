@@ -9,7 +9,7 @@ public class SocketReader implements Runnable {
 	IWebserviceHandler webserviceHandler;
 	Thread t;
 	boolean auth = false;
-	String authToken = "123123";
+	String authToken = "1010";
 
 	public SocketReader(Socket socket, IWebserviceHandler webserviceHandler) {
 		this.socket = socket;
