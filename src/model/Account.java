@@ -4,10 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.io.IOException;
 
-public class Plant {
-	public int id;
-	public String name;
-	public int assignedProfile;
+public class Account {
+	public String Username;
+	public String Password;
 
 	public String toJson() {
 		try {
@@ -17,9 +16,9 @@ public class Plant {
 		}
 	}
 
-	public static Plant fromJson(String json) {
+	public static Account fromJson(String json) {
 		try {
-			return JsonConverter.objectMapper.readValue(json, Plant.class);
+			return JsonConverter.objectMapper.readValue(json, Account.class);
 		} catch(IOException e) {
 			return null;
 		}
