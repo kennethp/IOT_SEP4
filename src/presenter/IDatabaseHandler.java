@@ -1,17 +1,14 @@
 package presenter;
 
-import model.Plant;
-import model.PlantMonitor;
-import model.User;
+import model.Account;
+import model.PlantProfile;
 
 public interface IDatabaseHandler {
 	
-	public User getUser(int id);
-	public boolean setUser(User user);
-	public int addUser(User user);
-	public boolean setPlantMonitor(PlantMonitor monitor);
-	public Plant getPlant(int id);
-	public boolean setPlant(Plant plant);
-	public int addPlant(Plant plant);
+	public Account getAccount(String user);
+	public boolean setAccount(Account user);
+	public boolean addAccount(Account user);
+	public boolean setPlantProfile(PlantProfile monitor);
+	public PlantProfile getPlantProfile(int id);
 	public String getStatus();
 }

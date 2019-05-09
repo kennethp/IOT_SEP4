@@ -1,22 +1,15 @@
 package presenter;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-
-import model.Plant;
-import model.PlantMonitor;
-import model.User;
+import model.Account;
+import model.PlantProfile;
 
 public interface IWebserviceHandler {
 	
-	public User getUser(int id);
-	public int addUser(User user);
-	public boolean modifyUser(User user);
-	public boolean removeUser(int id);
-	public Plant getPlant (int id);
-	public int addPlant(Plant plant);
-	public boolean modifyPlant(Plant plant);
-	public boolean removePlant(int id);
-	public PlantMonitor getPlantMonitor(int id);
+	public Account getAccount(String username);
+	public boolean addAccount(Account account);
+	public boolean modifyAccount(Account user);
+	public boolean removeAccount(String username);
+	public boolean removePlantProfile(int id);
+	public PlantProfile getPlantProfile(int id);
 
 }
