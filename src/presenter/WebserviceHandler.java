@@ -27,17 +27,16 @@ public class WebserviceHandler implements IWebserviceHandler {
 
 	@Override
 	public boolean removeAccount(String username) {
-		return false;
+		return databaseHandler.removeAccount(username);
 	}
 
 	@Override
 	public boolean removePlantProfile(int id) {
-		return false;
+		return databaseHandler.removePlantProfile(id);
 	}
 
 	@Override
 	public PlantProfile getPlantProfile(int id) {
 		return null;
-		//TODO get from embedded
 	}
 }
