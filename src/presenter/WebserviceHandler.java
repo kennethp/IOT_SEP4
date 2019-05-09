@@ -1,8 +1,7 @@
 package presenter;
 
-import model.Plant;
-import model.PlantMonitor;
-import model.User;
+import model.Account;
+import model.PlantProfile;
 
 public class WebserviceHandler implements IWebserviceHandler {
 	IDatabaseHandler databaseHandler;
@@ -12,47 +11,32 @@ public class WebserviceHandler implements IWebserviceHandler {
 	}
 
 	@Override
-	public User getUser(int id) {
-		return databaseHandler.getUser(id);
+	public Account getAccount(String username) {
+		return databaseHandler.getAccount(username);
 	}
 
 	@Override
-	public int addUser(User user) {
-		return databaseHandler.addUser(user);
+	public boolean addAccount(Account user) {
+		return databaseHandler.addAccount(user);
 	}
 
 	@Override
-	public boolean modifyUser(User user) {
-		return databaseHandler.setUser(user);
+	public boolean modifyAccount(Account user) {
+		return databaseHandler.setAccount(user);
 	}
 
 	@Override
-	public boolean removeUser(int id) {
+	public boolean removeAccount(String username) {
 		return false;
 	}
 
 	@Override
-	public Plant getPlant(int id) {
-		return databaseHandler.getPlant(id);
-	}
-
-	@Override
-	public int addPlant(Plant plant) {
-		return databaseHandler.addPlant(plant);
-	}
-
-	@Override
-	public boolean modifyPlant(Plant plant) {
-		return databaseHandler.setPlant(plant);
-	}
-
-	@Override
-	public boolean removePlant(int id) {
+	public boolean removePlantProfile(int id) {
 		return false;
 	}
 
 	@Override
-	public PlantMonitor getPlantMonitor(int id) {
+	public PlantProfile getPlantProfile(int id) {
 		return null;
 		//TODO get from embedded
 	}
