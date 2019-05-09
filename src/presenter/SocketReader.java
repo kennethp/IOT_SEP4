@@ -1,11 +1,8 @@
 package presenter;
 
-import javax.jws.soap.SOAPBinding;
 import java.io.*;
 import java.net.Socket;
 import model.*;
-
-import static java.lang.System.exit;
 
 public class SocketReader implements Runnable {
 	Socket socket;
@@ -76,96 +73,101 @@ public class SocketReader implements Runnable {
 			param = input.substring(c + 1, input.length());
 		}
 
-		switch (cmd) {
-			case "getuser":
-				int id_getUser;
+		String res;
+		switch(cmd) {
+			case "getplantprofile":
+				int id;
 				try {
-					id_getUser = Integer.parseInt(param);
-				} catch (NumberFormatException e) {
-					id_getUser = -1;
+					id = Integer.parseInt(param);
+				} catch(NumberFormatException e) {
+					id = -1;
 				}
-				respond(webserviceHandler.getUser(id_getUser).toJson(), bw);
-				break;
+				PlantProfile p = webserviceHandler.getPlantProfile(id);
 
-			case "adduser":
-				User userToAdd = User.fromJson(param);
-				String response = Integer.toString(webserviceHandler.addUser(userToAdd));
-				respond(response, bw);
-				break;
-			case "modifyuser":
-				User userToModify = User.fromJson(param);
-
-				if (webserviceHandler.modifyUser(userToModify)) {
-					respond("True", bw);
-				} else {
-					respond("False", bw);
+				if(p == null) {
+					res = "null";
 				}
-				break;
-
-			case "removeuser":
-				int id_RemoveUser;
-				try {
-					id_RemoveUser = Integer.parseInt(param);
-				} catch (NumberFormatException e) {
-					id_RemoveUser = -1;
+				else {
+					res = p.toJson();
 				}
-				if (webserviceHandler.removeUser(id_RemoveUser)) {
-					respond("True", bw);
-				} else {
-					respond("False", bw);
-				}
-				break;
 
-			case "getplant":
-				int id_getPlant;
-				try {
-					id_getPlant = Integer.parseInt(param);
-				} catch (NumberFormatException e) {
-					id_getPlant = -1;
-				}
-				respond(webserviceHandler.getPlant(id_getPlant).toJson(), bw);
-				break;
-
-			case "addplant":
-
-				Plant plantToAdd = Plant.fromJson(param);
-				String res = Integer.toString(webserviceHandler.addPlant(plantToAdd));
 				respond(res, bw);
 				break;
 
-			case "modifyplant":
-				Plant plantToModify = Plant.fromJson(param);
+			case "getaccount":
+				Account a = webserviceHandler.getAccount(param);
 
-				if (webserviceHandler.modifyPlant(plantToModify)) {
-					respond("True", bw);
-				} else {
-					respond("False", bw);
+				if(a == null) {
+					res = "null";
 				}
+				else {
+					res = a.toJson();
+				}
+
+				respond(res, bw);
 				break;
 
-			case "removeplant":
+			case "removeaccount":
+				if(webserviceHandler.removeAccount(param)) {
+					res = "accept";
+				}
+				else {
+					res = "reject";
+				}
 
-				int id_RemovePlant;
-				try {
-					id_RemovePlant = Integer.parseInt(param);
-				} catch (NumberFormatException e) {
-					id_RemovePlant = -1;
-				}
-				if (webserviceHandler.removePlant(id_RemovePlant)) {
-					respond("True", bw);
-				} else {
-					respond("False", bw);
-				}
+				respond(res, bw);
 				break;
 
-			case "getplantmonitor":
-				int id_getplantmonitor;
+			case "removeplantprofile":
+				int idP;
 				try {
-					id_getplantmonitor = Integer.parseInt(param);
-				} catch (NumberFormatException e) {
-					id_getplantmonitor = -1;
+					idP = Integer.parseInt(param);
+				} catch(NumberFormatException e) {
+					idP = -1;
 				}
-				respond(webserviceHandler.getPlantMonitor(id_getplantmonitor).toJson(), bw);
+
+				if(webserviceHandler.removePlantProfile(idP)) {
+					res = "accept";
+				}
+				else {
+					res = "reject";
+				}
+
+				respond(res, bw);
+				break;
+
+			case "addaccount":
+				Account addAccount = Account.fromJson(param);
+				if(addAccount == null) {
+					res = "reject";
+					break;
+				}
+
+				if(webserviceHandler.addAccount(addAccount)) {
+					res = "accept";
+				}
+				else {
+					res = "reject";
+				}
+
+				respond(res, bw);
+				break;
+
+			case "modifyaccount":
+				Account modAccount = Account.fromJson(param);
+				if(modAccount == null) {
+					res = "reject";
+					break;
+				}
+
+				if(webserviceHandler.modifyAccount(modAccount)) {
+					res = "accept";
+				}
+				else {
+					res = "reject";
+				}
+
+				respond(res, bw);
 				break;
 
 			default:
