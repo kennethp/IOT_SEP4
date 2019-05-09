@@ -67,6 +67,15 @@ public class DatabaseHandler implements IDatabaseHandler {
 	}
 
 	@Override
+	public boolean removeAccount(String username) {
+		Bson filter = new BasicDBObject("Username", username);
+		if(accountCollection.findOneAndDelete(filter) == null) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
 	public boolean setPlantProfile(PlantProfile monitor) {
 		Bson filter = new BasicDBObject("PlantID", monitor.PlantID);
 		Document rep = Document.parse(monitor.toJson());
@@ -89,5 +98,14 @@ public class DatabaseHandler implements IDatabaseHandler {
 		doc.remove("_id");
 		doc.remove("DateTime");
 		return PlantProfile.fromJson(doc.toJson());
+	}
+
+	@Override
+	public boolean removePlantProfile(int id) {
+		Bson filter = new BasicDBObject("PlantID", id);
+		if(plantCollection.findOneAndDelete(filter) == null) {
+			return false;
+		}
+		return true;
 	}
 }
