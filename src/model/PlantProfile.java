@@ -4,6 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.io.IOException;
 
+/**
+ * DTO for Plants
+ */
 public class PlantProfile {
 	public int PlantID;
 	public String PlantName;

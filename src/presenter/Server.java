@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
+/**
+ * Establishes bridge application
+ */
 public class Server {
 	static String host = "@test-i10mg.mongodb.net/test?retryWrites=true";
 	static String user = "Llamaxy";
@@ -19,6 +22,10 @@ public class Server {
 
 	public static ExecutorService executorService;
 
+	/**
+	 * Establishes the bridge application
+	 * @param port Port webservice socket
+	 */
 	public Server(int port) {
 		executorService = new ScheduledThreadPoolExecutor(2);
 
@@ -28,21 +35,13 @@ public class Server {
 		executorService.submit(webserviceConnector);
 	}
 
+	/**
+	 * Used by CLI to get status
+	 * @return Status String
+	 */
 	public String getStatus() {
 		return webserviceConnector.STATUS
 				+ '\n'
 				+ databaseHandler.getStatus();
-	}
-
-	public List<String> printPlants() {
-		ArrayList<String> list = new ArrayList<>();
-
-		PlantProfile p;
-		int i = 1;
-		while((p = databaseHandler.getPlantProfile(i)) != null) {
-			list.add(p.toJson());
-		}
-
-		return list;
 	}
 }

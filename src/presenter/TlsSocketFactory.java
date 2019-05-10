@@ -21,6 +21,9 @@ public class TlsSocketFactory {
 	private SSLServerSocketFactory ssf;
 	private SSLContext sslContext;
 
+	/**
+	 * Reads keystore data and creates an SSLContext and a ServerSocketFactory
+	 */
 	private TlsSocketFactory() {
 		try {
 			FileInputStream fis = new FileInputStream(System.getProperty("user.home") + "/bstore.jks");
@@ -51,6 +54,11 @@ public class TlsSocketFactory {
 		return me;
 	}
 
+	/**
+	 * Creates a new ServerSocket
+	 * @param port Port for socket connection
+	 * @return The generated ServerSocket
+	 */
 	public ServerSocket getServerSocket(int port) {
 		try {
 			return ssf.createServerSocket(port);

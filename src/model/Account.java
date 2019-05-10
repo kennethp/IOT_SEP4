@@ -4,6 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.io.IOException;
 
+/**
+ * DTO for user accounts
+ */
 public class Account {
 	public String Username;
 	public String Password;

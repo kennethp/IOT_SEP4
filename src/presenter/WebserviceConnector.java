@@ -14,7 +14,6 @@ public class WebserviceConnector implements Runnable {
 	IWebserviceHandler webserviceHandler;
 	int port;
 	static Charset charset = Charset.forName("UTF-8");
-	boolean die = false;
 	ServerSocket ss;
 	public String STATUS = "No client connected";
 
@@ -23,6 +22,9 @@ public class WebserviceConnector implements Runnable {
 		this.port = port;
 	}
 
+	/**
+	 * Calls {@link #listen(int)}
+	 */
 	@Override
 	public void run() {
 		try {
@@ -33,16 +35,11 @@ public class WebserviceConnector implements Runnable {
 		}
 	}
 
-	public void kill() {
-		exit(0);
-	}
-
 	/**
-	Listens for connection requests from the client and establishes a socket
-	connection. If the socket closes, it will go back to listening.
-	 It reads text from the socket connection until it receives a 0 byte
-	 and then passes the string to the handle method.
-	@param port Port of the socket connection.
+	 * Listens constantly for socket requests. When a new socket is established,
+	 * it kills the old one, assuming it is no longer used by the client.
+	 * @param port The port for listening.
+	 * @throws IOException On socket errors
 	 */
 	private void listen(int port) throws IOException {
 		ss = TlsSocketFactory.getInstance().getServerSocket(port);

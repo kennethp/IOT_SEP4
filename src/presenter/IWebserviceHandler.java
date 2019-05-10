@@ -3,6 +3,9 @@ package presenter;
 import model.Account;
 import model.PlantProfile;
 
+/**
+ * Handles request read from the webservice socket connection.
+ */
 public interface IWebserviceHandler {
 	
 	public Account getAccount(String username);

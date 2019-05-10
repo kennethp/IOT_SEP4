@@ -4,6 +4,9 @@ import java.io.*;
 import java.net.Socket;
 import model.*;
 
+/**
+ * Handles input from socket connection
+ */
 public class SocketReader implements Runnable {
 	Socket socket;
 	IWebserviceHandler webserviceHandler;
@@ -16,6 +19,9 @@ public class SocketReader implements Runnable {
 		this.webserviceHandler = webserviceHandler;
 	}
 
+	/**
+	 * Kill this instance, so the thread dies.
+	 */
 	public void kill() {
 		System.out.println("Connection terminated");
 		try {
@@ -26,6 +32,10 @@ public class SocketReader implements Runnable {
 		t.interrupt();
 	}
 
+	/**
+	 * Reads until encountering a \0 character and then passes
+	 * the buffered bytes, as a String, to {@link #handle(String, BufferedWriter)}.
+	 */
 	@Override
 	public void run() {
 		t = Thread.currentThread();
@@ -53,6 +63,12 @@ public class SocketReader implements Runnable {
 		}
 	}
 
+	/**
+	 * Handles the individual commands and responds on the BufferedWriter
+	 * @param input The String read in the {@link #run()}
+	 * @param bw BufferedWriter for the socket.
+	 * @throws IOException If writing to socket fails
+	 */
 	private void handle(String input, BufferedWriter bw) throws IOException {
 		if(!auth) {
 			if(input.equals(authToken)) {
@@ -177,10 +193,10 @@ public class SocketReader implements Runnable {
 	}
 
 	/**
-	 * Used by the handle() method to return responses to the webservice.
-	 * @param response Text to send.
-	 * @param bw Writer for the socket connection.
-	 * @throws IOException
+	 * Respond helper method
+	 * @param response String to write to socket.
+	 * @param bw The bufferedWriter passed on from {@link #handle(String, BufferedWriter)}
+	 * @throws IOException if writing to socket fails
 	 */
 	private void respond(String response, BufferedWriter bw) throws IOException {
 		bw.write(response);

@@ -30,6 +30,10 @@ public class DatabaseHandler implements IDatabaseHandler {
 		accountCollection = database.getCollection("Accounts");
 	}
 
+	/**
+	 * Used by CLI to get status of database connection
+	 * @return Status String
+	 */
 	@Override
 	public String getStatus() {
 		return STATUS;

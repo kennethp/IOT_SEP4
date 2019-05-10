@@ -2,7 +2,11 @@ package presenter;
 
 import model.Account;
 import model.PlantProfile;
-
+/**
+ * Handles connection to mongoDB
+ * Methods in this interface return a boolean indicating
+ * success or failure of action.
+ */
 public interface IDatabaseHandler {
 	
 	public Account getAccount(String user);

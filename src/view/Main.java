@@ -8,6 +8,9 @@ import java.util.Scanner;
 
 import static java.lang.System.exit;
 
+/**
+ * CLI for administration on the bridge application
+ */
 public class Main {
 	public static void main(String[] args) {
 		Server server = new Server(3001);
