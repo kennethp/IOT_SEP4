@@ -19,6 +19,7 @@ public class Server {
 	public IDatabaseHandler databaseHandler;
 	public WebserviceConnector webserviceConnector;
 	public IWebserviceHandler webserviceHandler;
+	public EmbeddedListener embeddedListener;
 
 	public static ExecutorService executorService;
 
@@ -27,12 +28,15 @@ public class Server {
 	 * @param port Port webservice socket
 	 */
 	public Server(int port) {
-		executorService = new ScheduledThreadPoolExecutor(2);
+		executorService = new ScheduledThreadPoolExecutor(4);
 
 		databaseHandler = new DatabaseHandler("mongodb+srv://" + user + ':' + pass + host);
 		webserviceHandler = new WebserviceHandler(databaseHandler);
 		webserviceConnector = new WebserviceConnector(webserviceHandler, port);
+		embeddedListener = new EmbeddedListener(databaseHandler);
+
 		executorService.submit(webserviceConnector);
+		executorService.submit(embeddedListener);
 	}
 
 	/**
