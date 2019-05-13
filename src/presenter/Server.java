@@ -28,15 +28,20 @@ public class Server {
 	 * @param port Port webservice socket
 	 */
 	public Server(int port) {
-		executorService = new ScheduledThreadPoolExecutor(4);
-
 		databaseHandler = new DatabaseHandler("mongodb+srv://" + user + ':' + pass + host);
 		webserviceHandler = new WebserviceHandler(databaseHandler);
 		webserviceConnector = new WebserviceConnector(webserviceHandler, port);
-		embeddedListener = new EmbeddedListener(databaseHandler);
+
+		List<EmbeddedListener> embeddedListeners = new ArrayList<>();
+		embeddedListeners.add(new EmbeddedListener(databaseHandler, "Rose", 1));
+
+		executorService = new ScheduledThreadPoolExecutor(embeddedListeners.size() + 2);
+
+		for(EmbeddedListener el : embeddedListeners) {
+			executorService.submit(el);
+		}
 
 		executorService.submit(webserviceConnector);
-		executorService.submit(embeddedListener);
 	}
 
 	/**
