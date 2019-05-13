@@ -7,7 +7,7 @@ import org.bson.conversions.Bson;
 import static java.lang.System.exit;
 
 public class EmbeddedListener implements Runnable{
-	WebSocketListener wsl;
+	IEmbeddedConnector wsl;
 	IDatabaseHandler databaseHandler;
 	String name;
 	int id;
