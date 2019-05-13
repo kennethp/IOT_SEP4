@@ -8,19 +8,19 @@ import java.util.ArrayDeque;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
-public class WebSocketListener implements WebSocket.Listener {
+public class WebSocketListener implements WebSocket.Listener, IEmbeddedConnector {
 	public static String STATUS = "WebSocket is closed";
 
 	private ArrayDeque<String> queue;
 
 	public WebSocketListener() {
 		queue = new ArrayDeque<>();
-		CompletableFuture<WebSocket> future = HttpClient.newHttpClient().newWebSocketBuilder()
-				.buildAsync(URI.create(
+		HttpClient.newHttpClient().newWebSocketBuilder().buildAsync(URI.create(
 						"wss://iotnet.teracom.dk/app?token=vnoRoAAAABFpb3RuZXQudGVyYWNvbS5ka4HekOv-rH_6NfnfbzGsjGY="),
 						this);
 	}
 
+	@Override
 	public String getMessage() {
 		return queue.poll();
 	}
