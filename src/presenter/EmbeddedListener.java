@@ -12,9 +12,11 @@ public class EmbeddedListener implements Runnable{
 	String name;
 	int id;
 
-	public EmbeddedListener(IDatabaseHandler databaseHandler) {
+	public EmbeddedListener(IDatabaseHandler databaseHandler, String name, int id) {
 		wsl = new WebSocketListener();
 		this.databaseHandler = databaseHandler;
+		this.name = name;
+		this.id = id;
 	}
 
 	@Override
@@ -32,8 +34,8 @@ public class EmbeddedListener implements Runnable{
 				int hum = Integer.parseInt("" + hex[0] + hex[1], 16);
 				int temp = Integer.parseInt("" + hex[2] + hex[3], 16);
 				int co2 = Integer.parseInt("" + hex[4] + hex[5] + hex[6] + hex[7], 16);
-				int light = Integer.parseInt("" + hex[8] + hex[9], 16);
-				int water = Integer.parseInt("" + hex[10] + hex[11], 16);
+				int light = Integer.parseInt("" + hex[8] + hex[9] + hex[10] + hex[11], 16);
+				int water = Integer.parseInt("" + hex[12] + hex[13], 16);
 
 				PlantProfile pp = new PlantProfile();
 				pp.AmountOfWater = 0;
@@ -44,8 +46,9 @@ public class EmbeddedListener implements Runnable{
 				pp.Temperature = temp;
 				pp.PlantName = name;
 				pp.PlantID = id;
+				System.out.println(pp.toJson());
 
-				//TODO submit to database
+				databaseHandler.setPlantProfile(pp);
 			}
 		}
 	}
