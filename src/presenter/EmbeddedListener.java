@@ -23,9 +23,8 @@ public class EmbeddedListener implements Runnable{
 	 * @param name
 	 * @param id
 	 */
-	public EmbeddedListener(IDatabaseHandler databaseHandler, String name, int id) {
-		wsl = new WebSocketListener("wss://iotnet.teracom.dk/app?token=vnoRoAAAABF" +
-				"pb3RuZXQudGVyYWNvbS5ka4HekOv-rH_6NfnfbzGsjGY=");
+	public EmbeddedListener(IDatabaseHandler databaseHandler, String name, int id, String url) {
+		wsl = new WebSocketListener(url);
 		this.databaseHandler = databaseHandler;
 		this.name = name;
 		this.id = id;
