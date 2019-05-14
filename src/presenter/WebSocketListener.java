@@ -7,16 +7,27 @@ import java.nio.ByteBuffer;
 import java.util.ArrayDeque;
 import java.util.concurrent.CompletionStage;
 
+/**
+ * Listens to the websocket provided by the loriot server
+ */
 public class WebSocketListener implements WebSocket.Listener, IEmbeddedConnector {
 	public static String STATUS = "WebSocket is closed";
 
 	private ArrayDeque<String> queue;
 
+	/**
+	 * Creates a WebSocket and parses itself is listener to the WebSocket's constructor
+	 * @param url The url to which the connection should be made
+	 */
 	public WebSocketListener(String url) {
 		queue = new ArrayDeque<>();
 		HttpClient.newHttpClient().newWebSocketBuilder().buildAsync(URI.create(url), this);
 	}
 
+	/**
+	 * Returns a string from it's internal buffer, if one exists;
+	 * @return String from websocket, or null if non in buffer
+	 */
 	@Override
 	public String getMessage() {
 		return queue.poll();
