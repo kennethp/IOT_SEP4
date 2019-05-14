@@ -47,6 +47,10 @@ public class TlsSocketFactory {
 		}
 	}
 
+	/**
+	 * Singleton static constructor
+	 * @return A new instance
+	 */
 	public static TlsSocketFactory getInstance() {
 		if(me == null) {
 			me = new TlsSocketFactory();
@@ -69,6 +73,11 @@ public class TlsSocketFactory {
 		return null;
 	}
 
+	/**
+	 * Creates a client-side socket for use in testing
+	 * @param port The localhost port to connect to
+	 * @return A socket
+	 */
 	public Socket getTestClientSocket(int port) {
 		try {
 			return sslContext.getSocketFactory().createSocket("localhost", port);

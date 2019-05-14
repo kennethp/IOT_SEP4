@@ -2,7 +2,6 @@ package presenter;
 
 import model.PlantProfile;
 import org.bson.Document;
-import org.bson.conversions.Bson;
 
 import static java.lang.System.exit;
 
@@ -19,9 +18,10 @@ public class EmbeddedListener implements Runnable{
 
 	/**
 	 * Listener for a single plant
-	 * @param databaseHandler
-	 * @param name
-	 * @param id
+	 * @param databaseHandler Instance for storage handling
+	 * @param name Name of the plant used in the database
+	 * @param id Database id of the plant
+	 * @param url Webservice connection URI for plant
 	 */
 	public EmbeddedListener(IDatabaseHandler databaseHandler, String name, int id, String url) {
 		wsl = new WebSocketListener(url);
