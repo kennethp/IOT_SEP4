@@ -74,6 +74,7 @@ public class SocketReader implements Runnable {
 			if(input.equals(authToken)) {
 				auth = true;
 				respond("accept", bw);
+				System.out.println("Client authenticated");
 			}
 			else {
 				respond("reject", bw);
