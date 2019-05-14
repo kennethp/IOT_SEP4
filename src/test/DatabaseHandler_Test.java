@@ -1,17 +1,19 @@
 package test;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import com.mongodb.BasicDBObject;
 
 import model.Account;
 import model.PlantProfile;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import presenter.DatabaseHandler;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 class DatabaseHandler_Test {
 
