@@ -34,8 +34,8 @@ public class Server {
 
 		List<EmbeddedListener> embeddedListeners = new ArrayList<>();
 		embeddedListeners.add(new EmbeddedListener(databaseHandler, "Rose", 1,
-				"wss://iotnet.teracom.dk/app?token=vnoRoAAAABF\" +\n" +
-						"\t\t\t\t\"pb3RuZXQudGVyYWNvbS5ka4HekOv-rH_6NfnfbzGsjGY="));
+				"wss://iotnet.teracom.dk/app?token=vnoRoAAAABF" +
+						"pb3RuZXQudGVyYWNvbS5ka4HekOv-rH_6NfnfbzGsjGY="));
 
 		executorService = new ScheduledThreadPoolExecutor(embeddedListeners.size() + 2);
 
