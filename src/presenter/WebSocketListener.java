@@ -5,7 +5,6 @@ import java.net.http.HttpClient;
 import java.net.http.WebSocket;
 import java.nio.ByteBuffer;
 import java.util.ArrayDeque;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 public class WebSocketListener implements WebSocket.Listener, IEmbeddedConnector {
@@ -13,11 +12,9 @@ public class WebSocketListener implements WebSocket.Listener, IEmbeddedConnector
 
 	private ArrayDeque<String> queue;
 
-	public WebSocketListener() {
+	public WebSocketListener(String url) {
 		queue = new ArrayDeque<>();
-		HttpClient.newHttpClient().newWebSocketBuilder().buildAsync(URI.create(
-						"wss://iotnet.teracom.dk/app?token=vnoRoAAAABFpb3RuZXQudGVyYWNvbS5ka4HekOv-rH_6NfnfbzGsjGY="),
-						this);
+		HttpClient.newHttpClient().newWebSocketBuilder().buildAsync(URI.create(url), this);
 	}
 
 	@Override

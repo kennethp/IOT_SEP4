@@ -3,6 +3,9 @@ package presenter;
 import model.Account;
 import model.PlantProfile;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class WebserviceHandler implements IWebserviceHandler {
 	IDatabaseHandler databaseHandler;
 
@@ -37,6 +40,6 @@ public class WebserviceHandler implements IWebserviceHandler {
 
 	@Override
 	public PlantProfile getPlantProfile(int id) {
-		return null;
+		return databaseHandler.getPlantProfile(id);
 	}
 }

@@ -6,14 +6,26 @@ import org.bson.conversions.Bson;
 
 import static java.lang.System.exit;
 
+/**
+ * Perpetually checks the queue in the internal WebSocketListener
+ * for updates and processes the received data into a PlantProfile object
+ * which is submitted to storage.
+ */
 public class EmbeddedListener implements Runnable{
 	IEmbeddedConnector wsl;
 	IDatabaseHandler databaseHandler;
 	String name;
 	int id;
 
+	/**
+	 * Listener for a single plant
+	 * @param databaseHandler
+	 * @param name
+	 * @param id
+	 */
 	public EmbeddedListener(IDatabaseHandler databaseHandler, String name, int id) {
-		wsl = new WebSocketListener();
+		wsl = new WebSocketListener("wss://iotnet.teracom.dk/app?token=vnoRoAAAABF" +
+				"pb3RuZXQudGVyYWNvbS5ka4HekOv-rH_6NfnfbzGsjGY=");
 		this.databaseHandler = databaseHandler;
 		this.name = name;
 		this.id = id;

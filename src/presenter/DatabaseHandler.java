@@ -7,6 +7,9 @@ import model.PlantProfile;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class DatabaseHandler implements IDatabaseHandler {
 	MongoClient mongo;
@@ -14,12 +17,14 @@ public class DatabaseHandler implements IDatabaseHandler {
 	MongoCollection<Document> accountCollection;
 	MongoCollection<Document> plantCollection;
 	public String STATUS = "Not connected";
+	Map<Integer, PlantProfile> plantProfiles;
 
 	/**
 	 * Constructs a database handler internally using com.mongodb.MongoClient
 	 * @param hostString MongoClientURI string
 	 */
 	public DatabaseHandler(String hostString) {
+		plantProfiles = new HashMap<>();
 		mongo = MongoClients.create(hostString);
 		database = mongo.getDatabase("Project");
 		if(database != null) {
@@ -81,6 +86,15 @@ public class DatabaseHandler implements IDatabaseHandler {
 
 	@Override
 	public boolean setPlantProfile(PlantProfile monitor) {
+		synchronized(plantProfiles) {
+			if(plantProfiles.containsKey(monitor.PlantID)) {
+				plantProfiles.replace(monitor.PlantID, monitor);
+			}
+			else {
+				plantProfiles.put(monitor.PlantID, monitor);
+			}
+		}
+
 		Bson filter = new BasicDBObject("PlantID", monitor.PlantID);
 		Document rep = Document.parse(monitor.toJson());
 		Document res = plantCollection.findOneAndReplace(filter, rep);
@@ -93,6 +107,12 @@ public class DatabaseHandler implements IDatabaseHandler {
 
 	@Override
 	public PlantProfile getPlantProfile(int id) {
+		synchronized(plantProfiles) {
+			if(plantProfiles.containsKey(id)) {
+				return plantProfiles.get(id);
+			}
+		}
+
 		Bson filter = new BasicDBObject("PlantID", id);
 		Document doc = plantCollection.find(filter).first();
 		if(doc == null) {
