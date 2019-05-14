@@ -8,72 +8,79 @@ import com.mongodb.BasicDBObject;
 
 import model.Account;
 import model.PlantProfile;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import presenter.DatabaseHandler;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static junit.framework.TestCase.assertEquals;
 
 
-class DatabaseHandler_Test {
+public class DatabaseHandler_Test {
 
 	String hostString = "mongodb+srv://Llamaxy:865feeBA@test-i10mg.mongodb.net/test?retryWrites=true";
 	DatabaseHandler dbh;
-	Account account = new Account();
-	PlantProfile monitor = new PlantProfile();
 
-	@BeforeEach
-	void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		dbh = new DatabaseHandler(hostString);
 	}
 
 	@Test
-	void getStatus() {
+	public void getStatus() {
 		String status = "Connected to mongoDB";
 		assertEquals(dbh.getStatus(), status);
 	}
 
 	@Test
-	void addAccount() {
+	public void addAccount() {
+		Account account = new Account();
 		account.Username = "Test_name";
 		account.Password = "Test_password";
 		assertEquals(dbh.addAccount(account), true);
 	}
 
 	@Test
-	void getAccount() {
-		String user = account.toJson();
-		assertEquals(dbh.getAccount(user), account);
+	public void getAccount() {
+		Account a = dbh.getAccount("Test_name");
+		assertEquals(a.Username, "Test_name");
 	}
 
 	@Test
-	void setAccount() {
-		account.Password = "new_Test_Password";
-		assertEquals(dbh.setAccount(account), true);
+	public void setAccount() {
+		Account a = new Account();
+		a.Username = "Test_name";
+		a.Password = "new_password";
+		assertEquals(dbh.setAccount(a), true);
 	}
 
 	@Test
-	void removeAccount() {
-		String username = account.Username;
-		assertEquals(dbh.removeAccount(username), true);
+	public void removeAccount() {
+		assertEquals(dbh.removeAccount("Test_name"), true);
 	}
 
 	@Test
-	void setPlantProfile() {
-		assertEquals(dbh.setPlantProfile(monitor), true);
+	public void setPlantProfile() {
+		PlantProfile pp = new PlantProfile();
+		pp.PlantID = 1;
+		pp.Temperature = 12;
+		pp.Light = 10;
+		pp.HoursSinceWatering = 0;
+		pp.PlantName = "Flower";
+		pp.Humidity = 1;
+		pp.CO2 = 100;
+		pp.AmountOfWater = 0;
+		assertEquals(dbh.setPlantProfile(pp), true);
 	}
 
 	@Test
-	void getPlantProfile() {
-		int plantID = monitor.PlantID;
-		assertEquals(dbh.getPlantProfile(plantID), monitor);
+	public void getPlantProfile() {
+		PlantProfile pp = dbh.getPlantProfile(1);
+		assertEquals(pp.PlantID, 1);
 	}
 
 	@Test
-	void removePlantProfile() {
-		int plantID = monitor.PlantID;
-		assertEquals(dbh.removePlantProfile(plantID), true);
-
+	public void removePlantProfile() {
+		assertEquals(dbh.removePlantProfile(2), true);
 	}
 
 }
